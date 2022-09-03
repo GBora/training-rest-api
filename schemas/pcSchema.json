@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "RAM": {
+        "type": "string"
+      },
+      "Video": {
+        "type": "string"
+      },
+      "Processor": {
+        "type": "string"
+      },
+      "Memory": {
+        "type": "string"
+      },
+      "Client": {
+        "type": "string"
+      },
+      "Price": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "RAM",
+      "Video",
+      "Processor",
+      "Memory",
+      "Client",
+      "Price"
+    ]
+  }
