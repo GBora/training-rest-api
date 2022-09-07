@@ -7,7 +7,8 @@ const updatePersonalComputer = async (req, res) => {
 
         const id = req.params.id;
         const list = await getPCs();
-        const index = list.findIndex(pc => pc.id === id)
+        const index = list.findIndex(pc => pc.id === id);
+        console.log(index);
     
         if (!validUser) {
             console.error('not valid');

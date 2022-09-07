@@ -6,6 +6,7 @@ const getPCs = async () => {
         let error, list = await db.get('pc');
         return list;
     } catch (e) {
+        console.log(e);
         return []
     }
 }
