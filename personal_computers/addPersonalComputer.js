@@ -3,13 +3,13 @@ const isValidUser = require("../utils/authUser");
 const isValidPC = require("../utils/validatePC");
 
 const addPersonalComputer = async (req, res) => {
-    // const bearerToken = req.headers['authorization'];
-    // const validUser = await isValidUser(bearerToken.split(' ')[1]);
+    const bearerToken = req.headers['authorization'];
+    const validUser = await isValidUser(bearerToken.split(' ')[1]);
 
-    // if (!validUser) {
-    //     console.error('not valid');
-    //     res.status(404).end();
-    // }
+    if (!validUser) {
+        console.error('not valid');
+        res.status(404).end();
+    }
 
     if (isValidPC(req.body)) {
         await addPC(req.body);
