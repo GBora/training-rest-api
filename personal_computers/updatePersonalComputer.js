@@ -1,27 +1,20 @@
-const { getPCs, savePCsList } = require("../data/pcRepository");
+const { updatePC } = require("../data/pcRepository");
+const isValidUser = require("../utils/authUser");
 
 const updatePersonalComputer = async (req, res) => {
     try {
-        // const bearerToken = req.headers['authorization'];
-        // const validUser = await isValidUser(bearerToken.split(' ')[1]);
+        const bearerToken = req.headers['authorization'];
+        const validUser = await isValidUser(bearerToken.split(' ')[1]);
 
         const id = req.params.id;
-        const list = await getPCs();
-        const index = list.findIndex(pc => pc.id === id);
-        console.log(index);
-    
-        // if (!validUser) {
-        //     console.error('not valid');
-        //     res.status(404).end();
-        // }
 
-        if (!index) {
+        if (!validUser) {
+            console.error('not valid');
             res.status(404).end();
-        } else {
-            list[index] = req.body;
-            await savePCsList(list);
-            res.status(200).end();
         }
+
+        await updatePC(id, req.body);
+        res.status(200).end()
     } catch(e) {
         res.status(400).end();
     }

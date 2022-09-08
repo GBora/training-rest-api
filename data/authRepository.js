@@ -1,37 +1,38 @@
-const { Level } = require('level');
-const db = new Level('it_shop', { valueEncoding: 'json' });
+const { Sequelize, Model, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'it-shop.db',
+});
+const User = sequelize.define('User', {
+  username: DataTypes.STRING,
+  password: DataTypes.STRING,
+});
 
 const getTokens = async () => {
-    try {
-        let error, list = await db.get('tokens');
-        return list;
-    } catch (e) {
-        return []
-    }
+    const list = ['af202098-c6a1-4924-9187-1eddd07e0338', 'abd1685b-c4d5-406d-993e-7c4f9b35daf7', 'c5f8780d-dcaa-45e4-a565-439ae79a6ef7'];
+
+    return list;
 }
 
 const signupUser = async (username, password) => {
-    const newUser = {
+    await User.sync();
+    await User.create({
         username: username,
-        password: password
-    };
-
-    try {
-        let error, list = await db.get('users');
-        list.push(newUser);
-        await db.put('users', list)
-    } catch (e) {
-        await db.put('users', [newUser])
-    }
+        password: password,
+    });
 }
 
 const getUsers = async () => {
-    try {
-        let error, list = await db.get('users');
-        return list;
-    } catch (e) {
-        return []
-    }
+    await User.sync();
+    const users = await User.findAll();
+    const result = users.map( user => { 
+        return {
+            username: user.username, 
+            password: user.password
+        }
+     })
+    return result;
 }
 
 module.exports = {
