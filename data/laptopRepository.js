@@ -1,32 +1,48 @@
-const { Level } = require('level');
-const db = new Level('it_shop', { valueEncoding: 'json' });
+const { Sequelize, Model, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'it-shop.db',
+});
+
+const Laptop = sequelize.define('Laptop', {
+  RAM: DataTypes.STRING,
+  Video: DataTypes.STRING,
+  Processor: DataTypes.STRING,
+  Memory: DataTypes.STRING,
+  Client: DataTypes.STRING,
+  Price: DataTypes.STRING,
+  Battery: DataTypes.STRING
+});
 
 const getLaptops = async () => {
-    try {
-        let error, list = await db.get('laptop');
-        return list;
-    } catch (e) {
-        console.log(e);
-        return []
-    }
+    await Laptop.sync();
+    const Laptops = await Laptop.findAll();
+    return Laptops;
 }
 
 const addLaptop = async (laptop) => {
-    try {
-        let error, list = await db.get('laptop');
-        list.push(laptop);
-        await db.put('laptop', list)
-    } catch (e) {
-        await db.put('laptop', [laptop])
-    }
+    await Laptop.sync();
+    await Laptop.create(laptop);
 }
 
-const saveLaptopsList = async (list) => {
-    await db.put('laptop', list);
+const updateLaptop = async (id, laptop) => {
+    await Laptop.sync();
+    Laptop.update(
+        { 
+            RAM: laptop.RAM,
+            Video: laptop.Video,
+            Processor: laptop.Processor,
+            Memory: laptop.Memory,
+            Client: laptop.Client,
+            Price: laptop.Price,
+            Battery: laptop.Battery
+        }, 
+        { where: { id : id }}
+    )
 }
 
 module.exports = {
     getLaptops,
-    addLaptop,
-    saveLaptopsList
+    addLaptop
 }

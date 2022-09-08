@@ -2,9 +2,6 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
-      "id": {
-        "type": "string"
-      },
       "RAM": {
         "type": "string"
       },
@@ -25,7 +22,6 @@
       }
     },
     "required": [
-      "id",
       "RAM",
       "Video",
       "Processor",
